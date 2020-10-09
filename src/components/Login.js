@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import Firebase from '../firebase';
 import { validateLogIn, validateLinkAccount } from '../lib/validation';
+import FacebookButton from './FacebookButton';
+import GoogleButton from './GoogleButton';
 
 const validationConfig = (values) => validateLogIn(values);
 
@@ -10,7 +12,7 @@ const linkValidationConfig = (values) => validateLinkAccount(values);
 
 export default function Login({ history }) {
     const [loginError, setLoginError] = useState(false);
-    const authError = false;
+    const [authError, setAuthError] = useState(false);
 
     async function logIn(email, password) {
         try {
@@ -40,6 +42,39 @@ export default function Login({ history }) {
         }
     }
 
+    async function logInGoogle() {
+        try {
+            setAuthError(null);
+            const result = await Firebase.logInWithGoogle();
+            const user = result.user;
+
+            if (user) {
+                history.push('/');
+            }
+        } catch (err) {
+            console.warn(err.message);
+
+            initiateLinkMode(err);
+        }
+    }
+
+    async function logInFacebook() {
+        try {
+            setAuthError(null);
+            const result = await Firebase.logInWithFacebook();
+            const user = result.user;
+
+            if (user) {
+                saveUser(user);
+                history.push('/');
+            }
+        } catch (err) {
+            console.warn(err);
+
+            initiateLinkMode(err);
+        }
+    }
+
     async function formHandler(values, actions) {
         const { email, password } = values;
 
@@ -52,6 +87,16 @@ export default function Login({ history }) {
         await linkAccount(values.password);
 
         actions.setSubmitting(false);
+    }
+
+    function initiateLinkMode(err) {
+        if (err.code === 'auth/account-exists-with-different-credential') {
+            err.message =
+                'A react-rolodex account with the same email already exists. Enter your password to link them.';
+            setAuthError(err);
+        } else if (err.code === 'auth/web-storage-unsupported') {
+            alert('Oops! This authentication method is not currently supported by this browser.');
+        }
     }
 
     return (
@@ -67,6 +112,14 @@ export default function Login({ history }) {
                     >
                         {({ values, errors, touched, handleChange, handleSubmit, isSubmitting }) => (
                             <form className="login__form" onSubmit={handleSubmit} noValidate={true}>
+                                <div className="form-control">
+                                    <FacebookButton onClick={logInFacebook} />
+                                    <GoogleButton onClick={logInGoogle} />
+                                </div>
+                                <div className="divider">
+                                    <span>continue with email</span>
+                                </div>
+
                                 <div className="form-control">
                                     <label>
                                         Email

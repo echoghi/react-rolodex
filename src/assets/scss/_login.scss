@@ -94,3 +94,18 @@
         margin-top: 0;
     }
 }
+
+.divider {
+    margin: 20px 0;
+    text-align: center;
+    height: 1px;
+    background: #ced4da;
+    line-height: 0;
+
+    span {
+        font-size: 12px;
+        background: #fff;
+        color: inherit;
+        padding: 5px;
+    }
+}

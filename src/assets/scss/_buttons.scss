@@ -1,0 +1,62 @@
+.button {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 18px;
+    letter-spacing: -0.04ch;
+    height: 48px;
+    line-height: 1;
+    border: 0;
+    margin: 5px 0;
+    padding: 12px 24px;
+
+    &:focus {
+        outline: none;
+    }
+
+    div {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.fb-button {
+    @extend .button;
+
+    background: #3b5998;
+    color: #fff;
+
+    &--icon {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgb(59, 89, 152);
+        fill: rgb(255, 255, 255);
+    }
+
+    &:hover {
+        background: #0e1f56;
+        border: 0;
+    }
+}
+
+.google-button {
+    @extend .button;
+
+    &--icon {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    background: #4285f6;
+    border: 0;
+    color: #fff;
+
+    &:hover {
+        background: #3367d6;
+        border: 0;
+    }
+}

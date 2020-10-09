@@ -1,8 +1,10 @@
 .nav {
     height: 80px;
     background-color: #fff;
-    display: grid;
-    grid-template-columns: 1fr 100px;
+    display: flex;
+    justify-content: flex-end;
+    // display: grid;
+    // grid-template-columns: 1fr 100px;
 }
 
 .sidenav {
@@ -14,7 +16,11 @@
 
 .user {
     &__wrapper {
-        &span {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        span {
             font-size: 12px;
             font-weight: bold;
             padding: 0 15px;
@@ -67,6 +73,7 @@
         font-family: 'Open Sans';
 
         &--wrapper {
+            padding: 0 20px;
             grid-column-start: 2;
             display: flex;
             align-items: center;

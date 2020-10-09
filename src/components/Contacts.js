@@ -39,11 +39,14 @@ export default function Contacts() {
     useEffect(() => {
         const contactRef = Firebase.db.ref('users').child(auth.uid).child('contacts');
 
-        contactRef.on('value', (snapshot) => {
-            const result = Object.entries(snapshot.val());
+        const getContacts = contactRef.on('value', (snapshot) => {
+            const val = snapshot.val();
+            const result = val && Object.entries(val).length ? Object.entries(val) : [];
 
             setData(makeData(result));
         });
+
+        return () => contactRef.off('value', getContacts);
     }, []);
 
     const data = tableData;
