@@ -1,4 +1,9 @@
-html {
+html,
+body {
     font-family: 'Open Sans';
     color: rgb(25, 25, 25);
+    background-color: #f4f8f9;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
 }

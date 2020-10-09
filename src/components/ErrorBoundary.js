@@ -13,7 +13,7 @@ class ErrorBoundary extends React.Component {
     render() {
         if (this.state.error) {
             return (
-                <div>
+                <div className="error__boundary">
                     <h1>Oops! </h1>
                     <p>💀 Something went wrong 💀</p>
                     <a href=".">Refresh page</a>

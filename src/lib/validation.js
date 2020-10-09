@@ -27,10 +27,10 @@ export function validatePassword(pass) {
 }
 
 export function validateLogIn(values) {
-    if (validateEmail(values.email) || validatePassword(values.password)) {
+    if (validateEmail(values.email) || defaultValidator(values.password)) {
         return {
             email: validateEmail(values.email),
-            password: validatePassword(values.password)
+            password: defaultValidator(values.password)
         };
     } else {
         return {};
@@ -60,9 +60,31 @@ export function validateResetPassword(values) {
 }
 
 export function validateLinkAccount(values) {
-    if (validatePassword(values.password)) {
+    if (defaultValidator(values.password)) {
         return {
-            password: validatePassword(values.password)
+            password: defaultValidator(values.password)
+        };
+    } else {
+        return {};
+    }
+}
+
+export function validateNewContact(values) {
+    if (
+        (defaultValidator(values.name) ||
+            validateEmail(values.email) ||
+            defaultValidator(values.company) ||
+            defaultValidator(values.dob) ||
+            defaultValidator(values.phone),
+        defaultValidator(values.notes))
+    ) {
+        return {
+            email: validateEmail(values.email),
+            name: defaultValidator(values.name),
+            phone: defaultValidator(values.phone),
+            dob: defaultValidator(values.dob),
+            company: defaultValidator(values.company),
+            notes: defaultValidator(values.notes)
         };
     } else {
         return {};

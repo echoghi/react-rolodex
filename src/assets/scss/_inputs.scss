@@ -14,6 +14,14 @@
         border-color: #80bdff;
         outline: none;
     }
+
+    &.contact {
+        background-color: #f9f9fb;
+    }
+
+    &.error {
+        border-color: rgb(203, 36, 49);
+    }
 }
 
 label {

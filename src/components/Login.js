@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
+import Firebase from '../firebase';
 import { validateLogIn, validateLinkAccount } from '../lib/validation';
 
 const validationConfig = (values) => validateLogIn(values);
@@ -8,12 +9,13 @@ const validationConfig = (values) => validateLogIn(values);
 const linkValidationConfig = (values) => validateLinkAccount(values);
 
 export default function Login({ history }) {
+    const [loginError, setLoginError] = useState(false);
     const authError = false;
 
     async function logIn(email, password) {
         try {
             await Firebase.logIn(email, password);
-            console.log('success');
+
             history.push('/');
         } catch (err) {
             console.warn(err.message);
@@ -34,7 +36,7 @@ export default function Login({ history }) {
                     break;
             }
 
-            console.log(message);
+            setLoginError(message);
         }
     }
 
@@ -69,12 +71,11 @@ export default function Login({ history }) {
                                     <label>
                                         Email
                                         <input
-                                            className="input"
+                                            className={`input ${errors.email && touched.email ? 'error' : ''} `}
                                             id="email"
                                             name="email"
                                             value={values.email}
                                             onChange={handleChange}
-                                            error={errors.email && touched.email}
                                         />
                                     </label>
                                     <div className="error__message">
@@ -86,17 +87,16 @@ export default function Login({ history }) {
                                     <label>
                                         Password
                                         <input
-                                            className="input"
+                                            className={`input ${errors.password && touched.password ? 'error' : ''} `}
                                             id="password"
                                             name="password"
                                             value={values.password}
                                             type="password"
-                                            error={errors.password && touched.password}
                                             onChange={handleChange}
                                         />
                                     </label>
                                     <div className="error__message">
-                                        {errors.password && touched.password && errors.password}
+                                        {loginError || (errors.password && touched.password && errors.password)}
                                     </div>
                                 </div>
                                 <div className="form-control">

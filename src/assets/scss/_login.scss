@@ -89,4 +89,8 @@
     width: 100%;
     margin-top: 16px;
     margin-bottom: 8px;
+
+    &.narrow {
+        margin-top: 0;
+    }
 }

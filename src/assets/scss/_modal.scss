@@ -1,0 +1,11 @@
+.modal {
+    &__container {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 15px 20px;
+        max-width: 500px;
+        min-height: 300px;
+        margin: 0 auto;
+        box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.1);
+    }
+}
