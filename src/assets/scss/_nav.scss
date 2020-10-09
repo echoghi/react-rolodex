@@ -2,16 +2,49 @@
     height: 80px;
     background-color: #fff;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     // display: grid;
     // grid-template-columns: 1fr 100px;
+
+    i {
+        display: flex;
+        font-size: 25px;
+        align-items: center;
+        padding: 0 30px;
+        cursor: pointer;
+    }
 }
 
 .sidenav {
     height: 100%;
     width: 80px;
     background-color: #fff;
-    position: fixed;
+    position: absolute;
+    transition: 0.2s ease width;
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    i {
+        width: 80px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        padding: 25px 0;
+        font-size: 22.5px;
+        cursor: pointer;
+        transition: 0.2s background-color ease;
+
+        &:hover {
+            background-color: #ececec;
+        }
+    }
+
+    &.hide {
+        width: 0;
+    }
 }
 
 .user {

@@ -87,7 +87,7 @@ export default function Contacts() {
             <div className="contacts__heading">
                 <div>
                     <h1>Contacts</h1>
-                    <span>{data.length} total</span>
+                    <h2>{data.length} total</h2>
                 </div>
                 <div>
                     <button className="contacts__add" onClick={() => setAddingContact(!isAddingContact)}>
