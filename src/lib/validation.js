@@ -26,6 +26,41 @@ export function validatePassword(pass) {
     }
 }
 
+const isValidDate = (date) => {
+    const dates = date.split('/');
+    const month = dates[0];
+    const day = dates[1];
+    const year = dates[2];
+
+    if (month > 12 || day > 31 || year > new Date().getFullYear()) {
+        return false;
+    }
+
+    return true;
+};
+
+export function validateDOB(dob) {
+    if (!dob) {
+        return 'Required';
+    } else if (dob.indexOf('_') >= 0) {
+        return 'Please enter a full DOB';
+    } else if (!isValidDate(dob)) {
+        return 'Please enter a valid date';
+    } else {
+        return false;
+    }
+}
+
+export function validatePhone(num) {
+    if (!num) {
+        return 'Required';
+    } else if (num.indexOf('_') >= 0) {
+        return 'Please enter an entire phone number';
+    } else {
+        return false;
+    }
+}
+
 export function validateLogIn(values) {
     if (validateEmail(values.email) || defaultValidator(values.password)) {
         return {
@@ -71,18 +106,18 @@ export function validateLinkAccount(values) {
 
 export function validateNewContact(values) {
     if (
-        (defaultValidator(values.name) ||
-            validateEmail(values.email) ||
-            defaultValidator(values.company) ||
-            defaultValidator(values.dob) ||
-            defaultValidator(values.phone),
-        defaultValidator(values.notes))
+        defaultValidator(values.name) ||
+        validateEmail(values.email) ||
+        defaultValidator(values.company) ||
+        validateDOB(values.dob) ||
+        validatePhone(values.phone) ||
+        defaultValidator(values.notes)
     ) {
         return {
             email: validateEmail(values.email),
             name: defaultValidator(values.name),
-            phone: defaultValidator(values.phone),
-            dob: defaultValidator(values.dob),
+            phone: validatePhone(values.phone),
+            dob: validateDOB(values.dob),
             company: defaultValidator(values.company),
             notes: defaultValidator(values.notes)
         };

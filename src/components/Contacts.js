@@ -1,27 +1,62 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useOnClickOutside } from '@echoghi/hooks';
 import { useTable } from 'react-table';
+import Firebase from '../firebase';
 
 import AddContact from './AddContact';
+import { useAuth } from '../context/authContext';
 
 const mockData = [
     { name: 'Bob Saget', company: 'Google', phone: '650 666-6666', created: 'now', updated: 'now' },
     { name: 'Emily Saget', company: 'Facebook', phone: '650 666-6666', created: 'now', updated: 'now' }
 ];
 
+function makeData(data) {
+    const result = [];
+
+    for (let i = 0; i < data.length; i++) {
+        const contact = data[i][1];
+
+        if (contact.created && contact.updated) {
+            contact.created = new Date(contact.created).toLocaleDateString('en-US');
+            contact.updated = new Date(contact.updated).toLocaleDateString('en-US');
+        }
+
+        result.push(contact);
+    }
+
+    return result;
+}
+
 export default function Contacts() {
+    const { auth } = useAuth();
     const [isAddingContact, setAddingContact] = useState(false);
+    const [tableData, setData] = useState([]);
     const ref = useRef();
 
     useOnClickOutside(ref, () => setAddingContact(false));
 
-    const data = React.useMemo(() => mockData, []);
+    useEffect(() => {
+        const contactRef = Firebase.db.ref('users').child(auth.uid).child('contacts');
+
+        contactRef.on('value', (snapshot) => {
+            const result = Object.entries(snapshot.val());
+
+            setData(makeData(result));
+        });
+    }, []);
+
+    const data = tableData;
 
     const columns = React.useMemo(
         () => [
             {
                 Header: 'Basic Info',
                 accessor: 'name'
+            },
+            {
+                Header: 'Email',
+                accessor: 'email'
             },
             {
                 Header: 'Company',

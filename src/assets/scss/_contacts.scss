@@ -54,7 +54,13 @@
 
     &__modal {
         max-width: 600px;
-        transform: translateY(-200px);
+        max-height: 520px;
+        transform: translateY(30%);
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
 
         h1 {
             font-size: 16px;

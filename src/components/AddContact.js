@@ -13,9 +13,11 @@ const AddContact = React.forwardRef((props, ref) => {
     async function formHandler(values, actions) {
         const contactRef = Firebase.db.ref('users').child(auth.uid).child('contacts');
         const contactData = {
-            ...values
+            ...values,
+            created: Date.now(),
+            updated: Date.now()
         };
-        console.log(contactData);
+
         await contactRef.push(contactData, (error) => {
             if (error) {
                 errorMessage();
@@ -64,7 +66,6 @@ const AddContact = React.forwardRef((props, ref) => {
                                             name="email"
                                             value={values.email}
                                             onChange={handleChange}
-                                            error={errors.email && touched.email}
                                         />
                                     </label>
                                     <div className="error__message">
