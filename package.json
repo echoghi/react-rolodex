@@ -2,7 +2,7 @@
     "name": "react-rolodex",
     "version": "1.0.0",
     "description": "An app that helps you organize your social life",
-    "main": "index.js",
+    "main": "src/app.js",
     "scripts": {
         "start": "parcel index.html"
     },
@@ -25,8 +25,19 @@
         "sass": "^1.27.0"
     },
     "dependencies": {
-        "react": "^16.13.1",
+        "firebase": "^7.23.0",
+        "formik": "^2.2.0",
+        "react": "^16.8.3",
         "react-dom": "^16.13.1",
-        "react-router-dom": "^5.2.0"
-    }
+        "react-redux": "^7.2.1",
+        "react-router-dom": "^5.2.0",
+        "redux": "^2.0.0 || ^3.0.0 || ^4.0.0-0"
+    },
+    "browserslist": [
+        "last 3 and_chr versions",
+        "last 3 chrome versions",
+        "last 3 opera versions",
+        "last 3 ios_saf versions",
+        "last 3 safari versions"
+    ]
 }
