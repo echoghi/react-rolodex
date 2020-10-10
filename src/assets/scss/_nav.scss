@@ -35,7 +35,7 @@
         padding: 25px 0;
         font-size: 22.5px;
         cursor: pointer;
-        transition: 0.2s background-color ease;
+        transition: 0.2s background-color ease, 0.2s ease transform;
 
         &:hover {
             background-color: #ececec;
@@ -44,6 +44,10 @@
 
     &.hide {
         width: 0;
+
+        i {
+            transform: translateX(-100px);
+        }
     }
 }
 

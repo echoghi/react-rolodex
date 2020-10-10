@@ -5,6 +5,7 @@ import { useTable } from 'react-table';
 import Firebase from '../firebase';
 import AddContact from './AddContact';
 import { useAuth } from '../context/authContext';
+import { useAppState } from '../context/appContext';
 
 function makeData(data) {
     const result = [];
@@ -23,8 +24,18 @@ function makeData(data) {
     return result;
 }
 
+const BasicInfo = ({ name, relation }) => {
+    return (
+        <div className="contact__info">
+            <h1>{name}</h1>
+            <h2>{relation}</h2>
+        </div>
+    );
+};
+
 export default function Contacts() {
     const { auth } = useAuth();
+    const { sideNav } = useAppState();
     const [isAddingContact, setAddingContact] = useState(false);
     const [tableData, setData] = useState([]);
     const ref = useRef();
@@ -50,7 +61,12 @@ export default function Contacts() {
         () => [
             {
                 Header: 'Basic Info',
-                accessor: 'name'
+                accessor: 'name',
+                Cell: (cellProps) => {
+                    const { relation, name } = cellProps.row.original;
+
+                    return <BasicInfo name={name} relation={relation} />;
+                }
             },
             {
                 Header: 'Email',
@@ -83,7 +99,7 @@ export default function Contacts() {
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
     return (
-        <div className="contacts__container">
+        <div className={`contacts__container ${sideNav ? 'sidenav--open' : ''}`}>
             {isAddingContact && <AddContact ref={ref} />}
             <div className="contacts__heading">
                 <div>

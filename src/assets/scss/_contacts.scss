@@ -1,7 +1,11 @@
 .contacts {
     &__container {
         margin: 2rem;
-        margin-left: 115px;
+        transition: 0.2s ease all;
+
+        &.sidenav--open {
+            margin-left: 115px;
+        }
     }
 
     &__heading {
@@ -72,5 +76,19 @@
 
     &__button {
         margin: 0;
+    }
+
+    &__info {
+        h1 {
+            font-size: 14px;
+            color: inherit;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 10px;
+            color: #02aafe;
+            margin: 2.5px 0;
+        }
     }
 }
