@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useOnClickOutside } from '@echoghi/hooks';
 import { useTable } from 'react-table';
 
@@ -6,6 +6,7 @@ import Firebase from '../firebase';
 import AddContact from './AddContact';
 import { useAuth } from '../context/authContext';
 import { useAppState } from '../context/appContext';
+import { displayName } from '../lib/util';
 
 function makeData(data) {
     const result = [];
@@ -27,8 +28,8 @@ function makeData(data) {
 const BasicInfo = ({ name, relation }) => {
     return (
         <div className="contact__info">
-            <h1>{name}</h1>
-            <h2>{relation}</h2>
+            <h1>{displayName(name)}</h1>
+            <h2>{displayName(relation)}</h2>
         </div>
     );
 };
@@ -38,9 +39,12 @@ export default function Contacts() {
     const { sideNav } = useAppState();
     const [isAddingContact, setAddingContact] = useState(false);
     const [tableData, setData] = useState([]);
+    const [optionsMenu, setOptionsMenu] = useState(null);
     const ref = useRef();
+    const menuRef = useRef();
 
     useOnClickOutside(ref, () => setAddingContact(false));
+    useOnClickOutside(menuRef, () => setOptionsMenu(null));
 
     useEffect(() => {
         const contactRef = Firebase.db.ref('users').child(auth.uid).child('contacts');
@@ -55,9 +59,9 @@ export default function Contacts() {
         return () => contactRef.off('value', getContacts);
     }, []);
 
-    const data = tableData;
+    const data = useMemo(() => tableData);
 
-    const columns = React.useMemo(
+    const columns = useMemo(
         () => [
             {
                 Header: 'Basic Info',
@@ -91,9 +95,35 @@ export default function Contacts() {
             {
                 Header: 'Last Updated',
                 accessor: 'updated'
+            },
+            {
+                Header: '',
+                accessor: 'updated',
+                id: 'Options',
+                Cell: (cellProps) => {
+                    const { id } = cellProps.row;
+
+                    const handleClick = () => setOptionsMenu(id);
+
+                    return (
+                        <div ref={menuRef}>
+                            <div className="table__options" onClick={handleClick}>
+                                <i className="fas fa-ellipsis-h" />
+                            </div>
+                            {optionsMenu === id && (
+                                <div>
+                                    <ul className="table__menu">
+                                        <li>Edit</li>
+                                        <li>Delete</li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    );
+                }
             }
         ],
-        []
+        [optionsMenu]
     );
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });

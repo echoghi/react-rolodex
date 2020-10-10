@@ -15,4 +15,37 @@
             background-color: #e7f4fa;
         }
     }
+
+    &__options {
+        text-align: center;
+        font-size: 16;
+    }
+
+    &__menu {
+        position: absolute;
+        width: 100px;
+        margin-top: 19px;
+        background: #fff;
+        font-size: 14px;
+        list-style: none;
+        padding: 15px;
+        right: 33px;
+        border: 1px solid #dbdbdb;
+        border-radius: 0 0 4px 4px;
+        font-family: 'Open Sans';
+
+        li {
+            padding: 10px;
+            border-top: 1px solid rgb(242, 242, 242);
+            cursor: pointer;
+
+            &:first-child {
+                border-top: 0;
+            }
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
 }

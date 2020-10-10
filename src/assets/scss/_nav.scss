@@ -3,6 +3,8 @@
     background-color: #fff;
     display: flex;
     justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.06) 2px 2px 10px 0px;
+
     // display: grid;
     // grid-template-columns: 1fr 100px;
 
@@ -21,6 +23,7 @@
     background-color: #fff;
     position: absolute;
     transition: 0.2s ease width;
+    box-shadow: rgba(0, 0, 0, 0.06) 1px 10px 11px 0px;
 
     a {
         text-decoration: none;

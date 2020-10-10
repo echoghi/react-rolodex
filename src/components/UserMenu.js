@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useOnClickOutside } from '@echoghi/hooks';
 
+import { displayName } from '../lib/util';
 import Firebase from '../firebase';
 import { useAuth } from '../context/authContext';
 
@@ -24,14 +25,6 @@ function UserMenu() {
         Firebase.auth.signOut();
     };
 
-    const displayName = (name) => {
-        if (name.length > 50) {
-            return `${name.substring(0, 50)}...`;
-        } else {
-            return name;
-        }
-    };
-
     return (
         <div className="user__menu--wrapper" ref={ref}>
             <div className="user__wrapper" onClick={toggleMenu}>
@@ -47,7 +40,7 @@ function UserMenu() {
 
             {open && (
                 <div>
-                    <ul className="user__menu" onClose={closeMenu}>
+                    <ul className="user__menu">
                         <li>
                             <Link onClick={closeMenu} to="profile">
                                 My Profile
