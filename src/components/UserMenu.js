@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useOnClickOutside } from '@echoghi/hooks';
+
 import Firebase from '../firebase';
 import { useAuth } from '../context/authContext';
 
@@ -41,6 +42,7 @@ function UserMenu() {
                     !auth.photoURL && <div className="user__image--backup" key={1} />
                 ].filter(Boolean)}
                 <span>{displayName(auth.displayName)}</span>
+                <i className="fa fa-chevron-down" />
             </div>
 
             {open && (

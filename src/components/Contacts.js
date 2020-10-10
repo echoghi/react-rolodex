@@ -1,15 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useOnClickOutside } from '@echoghi/hooks';
 import { useTable } from 'react-table';
-import Firebase from '../firebase';
 
+import Firebase from '../firebase';
 import AddContact from './AddContact';
 import { useAuth } from '../context/authContext';
-
-const mockData = [
-    { name: 'Bob Saget', company: 'Google', phone: '650 666-6666', created: 'now', updated: 'now' },
-    { name: 'Emily Saget', company: 'Facebook', phone: '650 666-6666', created: 'now', updated: 'now' }
-];
 
 function makeData(data) {
     const result = [];
@@ -70,6 +65,10 @@ export default function Contacts() {
                 accessor: 'phone'
             },
             {
+                Header: 'Birthday',
+                accessor: 'dob'
+            },
+            {
                 Header: 'Created Date',
                 accessor: 'created'
             },
@@ -80,7 +79,9 @@ export default function Contacts() {
         ],
         []
     );
+
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
+
     return (
         <div className="contacts__container">
             {isAddingContact && <AddContact ref={ref} />}
@@ -101,12 +102,7 @@ export default function Contacts() {
                         {headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
-                                    <th
-                                        {...column.getHeaderProps()}
-                                        style={{
-                                            fontWeight: 'bold'
-                                        }}
-                                    >
+                                    <th className="table__head" {...column.getHeaderProps()}>
                                         {column.render('Header')}
                                     </th>
                                 ))}

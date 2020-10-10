@@ -111,7 +111,7 @@ export function validateNewContact(values) {
         defaultValidator(values.company) ||
         validateDOB(values.dob) ||
         validatePhone(values.phone) ||
-        defaultValidator(values.notes)
+        defaultValidator(values.relation)
     ) {
         return {
             email: validateEmail(values.email),
@@ -119,7 +119,7 @@ export function validateNewContact(values) {
             phone: validatePhone(values.phone),
             dob: validateDOB(values.dob),
             company: defaultValidator(values.company),
-            notes: defaultValidator(values.notes)
+            relation: defaultValidator(values.relation)
         };
     } else {
         return {};

@@ -6,6 +6,7 @@ import Firebase from '../firebase';
 import Modal from './Modal';
 import { useAuth } from '../context/authContext';
 import { validateNewContact } from '../lib/validation';
+import Input from './Input';
 
 const AddContact = React.forwardRef((props, ref) => {
     const { auth } = useAuth();
@@ -36,7 +37,7 @@ const AddContact = React.forwardRef((props, ref) => {
                 <h1>Add Contact</h1>
 
                 <Formik
-                    initialValues={{ name: '', email: '', phone: '', company: '', dob: '', notes: '' }}
+                    initialValues={{ name: '', email: '', phone: '', company: '', dob: '', notes: '', relation: '' }}
                     validate={validateNewContact}
                     onSubmit={formHandler}
                 >
@@ -44,33 +45,27 @@ const AddContact = React.forwardRef((props, ref) => {
                         <form className="contact__form" onSubmit={handleSubmit} noValidate={true}>
                             <div className="contact__form--left">
                                 <div className="form-control narrow">
-                                    <label>
-                                        Name
-                                        <input
-                                            className={`${renderInputClass(errors.name && touched.name)}`}
-                                            id="name"
-                                            name="name"
-                                            value={values.name}
-                                            type="text"
-                                            onChange={handleChange}
-                                        />
-                                    </label>
-                                    <div className="error__message">{errors.name && touched.name && errors.name}</div>
+                                    <Input
+                                        name="Name"
+                                        error={errors.name && touched.name && errors.name}
+                                        className="contact"
+                                        id="name"
+                                        placeholder="John Snow"
+                                        value={values.name}
+                                        type="text"
+                                        onChange={handleChange}
+                                    />
                                 </div>
                                 <div className="form-control narrow">
-                                    <label>
-                                        Email
-                                        <input
-                                            className={`${renderInputClass(errors.email && touched.email)}`}
-                                            id="email"
-                                            name="email"
-                                            value={values.email}
-                                            onChange={handleChange}
-                                        />
-                                    </label>
-                                    <div className="error__message">
-                                        {errors.email && touched.email && errors.email}
-                                    </div>
+                                    <Input
+                                        name="Email"
+                                        error={errors.email && touched.email && errors.email}
+                                        className="contact"
+                                        id="email"
+                                        placeholder="jsnow@wall.com"
+                                        value={values.email}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                                 <div className="form-control narrow">
                                     <InputMask mask="(999) 999-9999" onChange={handleChange} value={values.phone}>
@@ -95,20 +90,16 @@ const AddContact = React.forwardRef((props, ref) => {
                                     </div>
                                 </div>
                                 <div className="form-control narrow">
-                                    <label>
-                                        Company
-                                        <input
-                                            className={`${renderInputClass(errors.company && touched.company)}`}
-                                            id="company"
-                                            name="company"
-                                            value={values.company}
-                                            type="text"
-                                            onChange={handleChange}
-                                        />
-                                    </label>
-                                    <div className="error__message">
-                                        {errors.company && touched.company && errors.company}
-                                    </div>
+                                    <Input
+                                        id="company"
+                                        name="Company"
+                                        className="contact"
+                                        placeholder="Night's Watch"
+                                        error={errors.company && touched.company && errors.company}
+                                        value={values.company}
+                                        type="text"
+                                        onChange={handleChange}
+                                    />
                                 </div>
 
                                 <div className="form-control narrow">
@@ -124,8 +115,21 @@ const AddContact = React.forwardRef((props, ref) => {
 
                             <div className="contact__notes">
                                 <div className="form-control narrow">
+                                    <Input
+                                        id="relation"
+                                        name="Relationship"
+                                        className="contact"
+                                        error={errors.relation && touched.relation && errors.relation}
+                                        placeholder="Family"
+                                        value={values.relation}
+                                        type="text"
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                <div className="form-control narrow">
                                     <InputMask mask="99/99/9999" onChange={handleChange} value={values.dob}>
-                                        {(inputProps) => (
+                                        {() => (
                                             <label>
                                                 Birthday
                                                 <input
