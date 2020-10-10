@@ -7,9 +7,11 @@ import Modal from './Modal';
 import { useAuth } from '../context/authContext';
 import { validateNewContact } from '../lib/validation';
 import Input from './Input';
+import { useAppState } from '../context/appContext';
 
 const AddContact = React.forwardRef((props, ref) => {
     const { auth } = useAuth();
+    const { setNewContactStatus } = useAppState();
 
     async function formHandler(values, actions) {
         const contactRef = Firebase.db.ref('users').child(auth.uid).child('contacts');
@@ -24,6 +26,7 @@ const AddContact = React.forwardRef((props, ref) => {
                 errorMessage();
             } else {
                 actions.resetForm();
+                setNewContactStatus(true);
             }
         });
         actions.setSubmitting(false);

@@ -36,14 +36,18 @@ const BasicInfo = ({ name, relation }) => {
 
 export default function Contacts() {
     const { auth } = useAuth();
-    const { sideNav } = useAppState();
+    const { sideNav, newContactSuccess, setNewContactStatus } = useAppState();
+
     const [isAddingContact, setAddingContact] = useState(false);
     const [tableData, setData] = useState([]);
     const [optionsMenu, setOptionsMenu] = useState(null);
     const ref = useRef();
     const menuRef = useRef();
 
-    useOnClickOutside(ref, () => setAddingContact(false));
+    useOnClickOutside(ref, () => {
+        setAddingContact(false);
+        setNewContactStatus(false);
+    });
     useOnClickOutside(menuRef, () => setOptionsMenu(null));
 
     useEffect(() => {
@@ -59,6 +63,10 @@ export default function Contacts() {
         return () => contactRef.off('value', getContacts);
     }, []);
 
+    const toggleAddContact = () => {
+        setAddingContact(!isAddingContact);
+        setNewContactStatus(false);
+    };
     const data = useMemo(() => tableData);
 
     const columns = useMemo(
@@ -130,14 +138,14 @@ export default function Contacts() {
 
     return (
         <div className={`contacts__container ${sideNav ? 'sidenav--open' : ''}`}>
-            {isAddingContact && <AddContact ref={ref} />}
+            {isAddingContact && !newContactSuccess && <AddContact ref={ref} />}
             <div className="contacts__heading">
                 <div>
                     <h1>Contacts</h1>
                     <h2>{data.length} total</h2>
                 </div>
                 <div>
-                    <button className="contacts__add" onClick={() => setAddingContact(!isAddingContact)}>
+                    <button className="contacts__add" onClick={toggleAddContact}>
                         Add Contact
                     </button>
                 </div>
