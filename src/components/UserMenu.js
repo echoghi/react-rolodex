@@ -42,16 +42,20 @@ function UserMenu() {
                 <div>
                     <ul className="user__menu">
                         <li>
+                            <i class="fas fa-user" />
                             <Link onClick={closeMenu} to="profile">
                                 My Profile
                             </Link>
                         </li>
                         <li>
+                            <i class="fas fa-user-cog" />
                             <Link onClick={closeMenu} to="settings">
                                 Account Settings
                             </Link>
                         </li>
-                        <li onClick={logOutHandler}>Log Out</li>
+                        <li onClick={logOutHandler}>
+                            <i class="fas fa-sign-out-alt"></i>Log Out
+                        </li>
                     </ul>
                 </div>
             )}

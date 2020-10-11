@@ -10,9 +10,28 @@ import Input from './Input';
 import { useAppState } from '../context/appContext';
 
 const AddContact = React.forwardRef(
-    ({ name = '', email = '', phone = '', company = '', dob = '', notes = '', relation = '' }, ref) => {
+    ({ name = '', id, email = '', phone = '', company = '', dob = '', notes = '', relation = '' }, ref) => {
         const { auth } = useAuth();
         const { setNewContactStatus } = useAppState();
+
+        async function editFormHandler(values, actions) {
+            const contactRef = Firebase.db.ref('users').child(auth.uid).child('contacts').child(id);
+
+            await contactRef.update(
+                {
+                    ...values,
+                    updated: Date.now()
+                },
+                (error) => {
+                    if (error) {
+                        console.warn(error);
+                    } else {
+                        actions.resetForm();
+                        setNewContactStatus(true);
+                    }
+                }
+            );
+        }
 
         async function formHandler(values, actions) {
             const contactRef = Firebase.db.ref('users').child(auth.uid).child('contacts');
@@ -24,7 +43,7 @@ const AddContact = React.forwardRef(
 
             await contactRef.push(contactData, (error) => {
                 if (error) {
-                    errorMessage();
+                    console.warn(error);
                 } else {
                     actions.resetForm();
                     setNewContactStatus(true);
@@ -51,7 +70,7 @@ const AddContact = React.forwardRef(
                             relation
                         }}
                         validate={validateNewContact}
-                        onSubmit={formHandler}
+                        onSubmit={name ? editFormHandler : formHandler}
                     >
                         {({ values, errors, touched, handleChange, handleSubmit, isSubmitting }) => (
                             <form className="contact__form" onSubmit={handleSubmit} noValidate={true}>

@@ -4,9 +4,8 @@
     display: flex;
     justify-content: space-between;
     box-shadow: rgba(0, 0, 0, 0.06) 2px 2px 10px 0px;
-
-    // display: grid;
-    // grid-template-columns: 1fr 100px;
+    background-color: #0063dd;
+    color: #fff;
 
     i {
         display: flex;
@@ -20,7 +19,7 @@
 .sidenav {
     height: 100%;
     width: 80px;
-    background-color: #fff;
+    background-color: #3682f9;
     position: absolute;
     transition: 0.2s ease width;
     box-shadow: rgba(0, 0, 0, 0.06) 1px 10px 11px 0px;
@@ -31,6 +30,7 @@
     }
 
     i {
+        color: #fff;
         width: 80px;
         margin: 0 auto;
         display: flex;
@@ -40,8 +40,9 @@
         cursor: pointer;
         transition: 0.2s background-color ease, 0.2s ease transform;
 
-        &:hover {
-            background-color: #ececec;
+        &:hover,
+        &.active {
+            background-color: #0063dd;
         }
     }
 
@@ -112,15 +113,25 @@
     &__menu {
         position: absolute;
         width: 200px;
-        margin-top: 40px;
-        background: #fff;
-        font-size: 14px;
+        margin-top: 51px;
+        background: $primary;
+        color: $white;
+        font-size: 15px;
         list-style: none;
-        padding: 15px;
-        right: 0;
-        border: 1px solid #dbdbdb;
-        border-radius: 0 0 4px 4px;
+        padding: 15px 10px;
+        right: 15px;
+        border-radius: 4px;
         font-family: 'Open Sans';
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: -11px;
+            left: 165px;
+            border-bottom: 11px solid $primary;
+            border-left: 11px solid transparent;
+            border-right: 11px solid transparent;
+        }
 
         &--wrapper {
             padding: 0 20px;
@@ -135,14 +146,17 @@
             color: inherit;
         }
 
+        a i,
+        li i {
+            font-size: 15px;
+            padding-right: 15px;
+            padding-left: 0;
+        }
+
         li {
             padding: 10px;
-            border-top: 1px solid rgb(242, 242, 242);
             cursor: pointer;
-
-            &:first-child {
-                border-top: 0;
-            }
+            display: flex;
 
             &:hover {
                 opacity: 0.8;

@@ -21,6 +21,7 @@ export default function Contacts() {
     const { auth } = useAuth();
     const { sideNav, newContactSuccess, setNewContactStatus } = useAppState();
 
+    const [contactToEdit, setContactToEdit] = useState({});
     const [isAddingContact, setAddingContact] = useState(false);
     const [tableData, setData] = useState([]);
     const [optionsMenu, setOptionsMenu] = useState(null);
@@ -60,7 +61,15 @@ export default function Contacts() {
             });
     };
 
+    const editContact = (contact) => {
+        setContactToEdit(contact);
+        setAddingContact(true);
+        setNewContactStatus(false);
+        setOptionsMenu(false);
+    };
+
     const toggleAddContact = () => {
+        setContactToEdit({});
         setAddingContact(!isAddingContact);
         setNewContactStatus(false);
     };
@@ -117,7 +126,7 @@ export default function Contacts() {
                             {optionsMenu === rowId && (
                                 <div ref={menuRef}>
                                     <ul className="table__menu">
-                                        <li>
+                                        <li onClick={() => editContact(cellProps.row.original)}>
                                             <i className="fas fa-user-edit"></i>
                                         </li>
                                         <li onClick={() => removeContact(id)}>
@@ -138,7 +147,7 @@ export default function Contacts() {
 
     return (
         <div className={`contacts__container ${sideNav ? 'sidenav--open' : ''}`}>
-            {isAddingContact && !newContactSuccess && <AddContact ref={ref} />}
+            {isAddingContact && !newContactSuccess && <AddContact ref={ref} {...contactToEdit} />}
             <div className="contacts__heading">
                 <div>
                     <h1>Contacts</h1>
