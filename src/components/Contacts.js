@@ -6,27 +6,7 @@ import Firebase from '../firebase';
 import AddContact from './AddContact';
 import { useAuth } from '../context/authContext';
 import { useAppState } from '../context/appContext';
-import { displayName } from '../lib/util';
-
-function makeData(data) {
-    const result = [];
-
-    for (let i = 0; i < data.length; i++) {
-        const contact = data[i][1];
-        const id = data[i][0];
-
-        contact.id = id;
-
-        if (contact.created && contact.updated) {
-            contact.created = new Date(contact.created).toLocaleDateString('en-US');
-            contact.updated = new Date(contact.updated).toLocaleDateString('en-US');
-        }
-
-        result.push(contact);
-    }
-
-    return result;
-}
+import { displayName, makeData } from '../lib/util';
 
 const BasicInfo = ({ name, relation }) => {
     return (
@@ -129,21 +109,19 @@ export default function Contacts() {
                     const { id } = cellProps.row.original;
                     const rowId = cellProps.row.id;
 
-                    const handleClick = () => setOptionsMenu(rowId);
-
                     return (
                         <div>
-                            <div className="table__options" onClick={handleClick}>
+                            <div className="table__options">
                                 <i className="fas fa-ellipsis-h" />
                             </div>
                             {optionsMenu === rowId && (
                                 <div ref={menuRef}>
                                     <ul className="table__menu">
                                         <li>
-                                            <i className="fas fa-user-edit"></i>Edit Contact
+                                            <i className="fas fa-user-edit"></i>
                                         </li>
                                         <li onClick={() => removeContact(id)}>
-                                            <i className="fas fa-trash"></i>Remove
+                                            <i className="fas fa-trash"></i>
                                         </li>
                                     </ul>
                                 </div>
@@ -191,8 +169,16 @@ export default function Contacts() {
                             return (
                                 <tr {...row.getRowProps()}>
                                     {row.cells.map((cell) => {
+                                        const optionsMenuHandler =
+                                            cell.column.id === 'Options'
+                                                ? () => setOptionsMenu(cell.row.id)
+                                                : undefined;
                                         return (
-                                            <td className="table__cell" {...cell.getCellProps()}>
+                                            <td
+                                                className="table__cell"
+                                                onClick={optionsMenuHandler}
+                                                {...cell.getCellProps()}
+                                            >
                                                 {cell.render('Cell')}
                                             </td>
                                         );

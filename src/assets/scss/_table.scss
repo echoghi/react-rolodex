@@ -23,30 +23,35 @@
 
     &__menu {
         position: absolute;
-        min-width: 130px;
         margin-top: 19px;
-        background: #fff;
+        background: #0063dd;
         font-size: 14px;
         list-style: none;
         padding: 10px 5px;
-        right: 33px;
-        border: 1px solid #dbdbdb;
+        right: 45px;
         border-radius: 4px;
         font-family: 'Open Sans';
 
+        &:after {
+            content: '';
+            position: absolute;
+            top: -11px;
+            left: 65px;
+            border-bottom: 11px solid #0063dd;
+            border-left: 11px solid transparent;
+            border-right: 11px solid transparent;
+        }
+
         li {
             padding: 10px;
-            border-top: 1px solid rgb(242, 242, 242);
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            transition: 0.2s ease opacity;
 
             i {
+                color: #fff;
                 padding-right: 10px;
-            }
-
-            &:first-child {
-                border-top: 0;
             }
 
             &:hover {
