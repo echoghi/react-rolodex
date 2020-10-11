@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, lazy } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, useHistory } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 
 const Contacts = lazy(() => import('./Contacts'));
@@ -10,17 +10,13 @@ import ErrorBoundary from './ErrorBoundary';
 import Nav from './Nav';
 import Loading from './Loading';
 
-function AppIndex({ history }) {
-    const { auth, setAuth } = useAuth();
+function AppIndex() {
+    const { auth } = useAuth();
+    const history = useHistory();
 
     useEffect(() => {
         const unsubscribe = Firebase.auth.onAuthStateChanged((user) => {
-            if (user && user.uid) {
-                setAuth(user);
-            } else {
-                setAuth({});
-                history.push('/login');
-            }
+            if (!user || !user.uid) history.push('/login');
         });
 
         return () => unsubscribe();

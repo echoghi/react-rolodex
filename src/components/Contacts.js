@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
+import { useToasts } from 'react-toast-notifications';
 import { useOnClickOutside } from '@echoghi/hooks';
 import { useTable } from 'react-table';
 
@@ -19,6 +20,7 @@ const BasicInfo = ({ name, relation }) => {
 
 export default function Contacts() {
     const { auth } = useAuth();
+    const { addToast } = useToasts();
     const { sideNav, newContactSuccess, setNewContactStatus } = useAppState();
 
     const [contactToEdit, setContactToEdit] = useState({});
@@ -54,10 +56,10 @@ export default function Contacts() {
         contactRef
             .remove()
             .then(() => {
-                alert('Contact removed');
+                addToast('Contact removed', { appearance: 'success' });
             })
             .catch(() => {
-                console.warn('Contact could not be removed');
+                addToast('Contact could not be removed', { appearance: 'error' });
             });
     };
 

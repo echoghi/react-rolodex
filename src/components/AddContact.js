@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Formik } from 'formik';
 import InputMask from 'react-input-mask';
+import { useToasts } from 'react-toast-notifications';
 
 import Firebase from '../firebase';
 import Modal from './Modal';
@@ -9,9 +10,10 @@ import { validateNewContact } from '../lib/validation';
 import Input from './Input';
 import { useAppState } from '../context/appContext';
 
-const AddContact = React.forwardRef(
+const AddContact = forwardRef(
     ({ name = '', id, email = '', phone = '', company = '', dob = '', notes = '', relation = '' }, ref) => {
         const { auth } = useAuth();
+        const { addToast } = useToasts();
         const { setNewContactStatus } = useAppState();
 
         async function editFormHandler(values, actions) {
@@ -24,9 +26,10 @@ const AddContact = React.forwardRef(
                 },
                 (error) => {
                     if (error) {
-                        console.warn(error);
+                        addToast(error, { appearance: 'error' });
                     } else {
                         actions.resetForm();
+                        addToast('Contact updated', { appearance: 'success' });
                         setNewContactStatus(true);
                     }
                 }
@@ -43,9 +46,10 @@ const AddContact = React.forwardRef(
 
             await contactRef.push(contactData, (error) => {
                 if (error) {
-                    console.warn(error);
+                    addToast(error, { appearance: 'error' });
                 } else {
                     actions.resetForm();
+                    addToast('New contact added', { appearance: 'success' });
                     setNewContactStatus(true);
                 }
             });
@@ -78,58 +82,52 @@ const AddContact = React.forwardRef(
                                     <div className="form-control narrow">
                                         <Input
                                             name="Name"
-                                            error={errors.name && touched.name && errors.name}
-                                            className="contact"
                                             id="name"
-                                            placeholder="John Snow"
-                                            value={values.name}
                                             type="text"
+                                            value={values.name}
+                                            className="contact"
+                                            placeholder="John Snow"
                                             onChange={handleChange}
+                                            error={errors.name && touched.name && errors.name}
                                         />
                                     </div>
                                     <div className="form-control narrow">
                                         <Input
-                                            name="Email"
-                                            error={errors.email && touched.email && errors.email}
-                                            className="contact"
                                             id="email"
-                                            placeholder="jsnow@wall.com"
+                                            name="Email"
+                                            className="contact"
                                             value={values.email}
+                                            placeholder="jsnow@wall.com"
                                             onChange={handleChange}
+                                            error={errors.email && touched.email && errors.email}
                                         />
                                     </div>
                                     <div className="form-control narrow">
                                         <InputMask mask="(999) 999-9999" onChange={handleChange} value={values.phone}>
-                                            {(inputProps) => (
-                                                <label>
-                                                    Phone
-                                                    <input
-                                                        className={`${renderInputClass(errors.phone && touched.phone)}`}
-                                                        id="phone"
-                                                        name="phone"
-                                                        value={values.phone}
-                                                        placeholder="(800) 527-6911"
-                                                        type="text"
-                                                        onChange={handleChange}
-                                                    />
-                                                </label>
+                                            {() => (
+                                                <Input
+                                                    type="text"
+                                                    id="phone"
+                                                    name="Phone"
+                                                    value={values.phone}
+                                                    className="contact"
+                                                    onChange={handleChange}
+                                                    placeholder="(800) 527-6911"
+                                                    error={errors.phone && touched.phone && errors.phone}
+                                                />
                                             )}
                                         </InputMask>
-
-                                        <div className="error__message">
-                                            {errors.phone && touched.phone && errors.phone}
-                                        </div>
                                     </div>
                                     <div className="form-control narrow">
                                         <Input
                                             id="company"
+                                            type="text"
                                             name="Company"
+                                            value={values.company}
                                             className="contact"
+                                            onChange={handleChange}
                                             placeholder="Night's Watch"
                                             error={errors.company && touched.company && errors.company}
-                                            value={values.company}
-                                            type="text"
-                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -148,34 +146,31 @@ const AddContact = React.forwardRef(
                                     <div className="form-control narrow">
                                         <Input
                                             id="relation"
-                                            name="Relationship"
-                                            className="contact"
-                                            error={errors.relation && touched.relation && errors.relation}
-                                            placeholder="Family"
-                                            value={values.relation}
                                             type="text"
+                                            name="Relationship"
+                                            value={values.relation}
+                                            className="contact"
                                             onChange={handleChange}
+                                            placeholder="Family"
+                                            error={errors.relation && touched.relation && errors.relation}
                                         />
                                     </div>
 
                                     <div className="form-control narrow">
                                         <InputMask mask="99/99/9999" onChange={handleChange} value={values.dob}>
                                             {() => (
-                                                <label>
-                                                    Birthday
-                                                    <input
-                                                        className={`${renderInputClass(errors.dob && touched.dob)}`}
-                                                        id="dob"
-                                                        name="dob"
-                                                        value={values.dob}
-                                                        placeholder="05/15/1988"
-                                                        type="text"
-                                                        onChange={handleChange}
-                                                    />
-                                                </label>
+                                                <Input
+                                                    id="dob"
+                                                    type="text"
+                                                    name="Birthday"
+                                                    className="contact"
+                                                    value={values.dob}
+                                                    onChange={handleChange}
+                                                    placeholder="05/15/1988"
+                                                    error={errors.dob && touched.dob && errors.dob}
+                                                />
                                             )}
                                         </InputMask>
-                                        <div className="error__message">{errors.dob && touched.dob && errors.dob}</div>
                                     </div>
 
                                     <div className="form-control narrow">

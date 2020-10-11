@@ -1,0 +1,18 @@
+.rolodex-toast {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.react-toast-notifications__toast {
+    &__dismiss-button {
+        display: flex;
+        align-items: center;
+    }
+
+    &__icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

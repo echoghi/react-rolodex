@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 import { Formik } from 'formik';
+
 import Firebase from '../firebase';
 import { validateLogIn, validateLinkAccount } from '../lib/validation';
 import FacebookButton from './FacebookButton';
@@ -10,9 +12,21 @@ const validationConfig = (values) => validateLogIn(values);
 
 const linkValidationConfig = (values) => validateLinkAccount(values);
 
-export default function Login({ history }) {
+export default function Login() {
+    const { addToast } = useToasts();
+    const history = useHistory();
     const [loginError, setLoginError] = useState(false);
     const [authError, setAuthError] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = Firebase.auth.onAuthStateChanged((user) => {
+            if (user && user.uid) {
+                history.push('/');
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     async function logIn(email, password) {
         try {
@@ -95,7 +109,9 @@ export default function Login({ history }) {
                 'A react-rolodex account with the same email already exists. Enter your password to link them.';
             setAuthError(err);
         } else if (err.code === 'auth/web-storage-unsupported') {
-            alert('Oops! This authentication method is not currently supported by this browser.');
+            addToast('Oops! This authentication method is not currently supported by this browser.', {
+                appearance: 'error'
+            });
         }
     }
 

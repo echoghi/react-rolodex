@@ -40,9 +40,7 @@ const isValidDate = (date) => {
 };
 
 export function validateDOB(dob) {
-    if (!dob) {
-        return 'Required';
-    } else if (dob.indexOf('_') >= 0) {
+    if (dob.indexOf('_') >= 0) {
         return 'Please enter a full DOB';
     } else if (!isValidDate(dob)) {
         return 'Please enter a valid date';
@@ -52,9 +50,7 @@ export function validateDOB(dob) {
 }
 
 export function validatePhone(num) {
-    if (!num) {
-        return 'Required';
-    } else if (num.indexOf('_') >= 0) {
+    if (num.indexOf('_') >= 0) {
         return 'Please enter an entire phone number';
     } else {
         return false;
@@ -108,18 +104,14 @@ export function validateNewContact(values) {
     if (
         defaultValidator(values.name) ||
         validateEmail(values.email) ||
-        defaultValidator(values.company) ||
         validateDOB(values.dob) ||
-        validatePhone(values.phone) ||
-        defaultValidator(values.relation)
+        validatePhone(values.phone)
     ) {
         return {
             email: validateEmail(values.email),
             name: defaultValidator(values.name),
             phone: validatePhone(values.phone),
-            dob: validateDOB(values.dob),
-            company: defaultValidator(values.company),
-            relation: defaultValidator(values.relation)
+            dob: validateDOB(values.dob)
         };
     } else {
         return {};

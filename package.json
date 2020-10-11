@@ -31,11 +31,12 @@
         "@echoghi/hooks": "^1.4.3",
         "firebase": "^7.23.0",
         "formik": "^2.2.0",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
+        "react": "^16.8.0",
+        "react-dom": "^16.8.0",
         "react-input-mask": "^2.0.4",
         "react-router-dom": "^5.2.0",
-        "react-table": "^7.5.2"
+        "react-table": "^7.5.2",
+        "react-toast-notifications": "^2.4.0"
     },
     "browserslist": [
         "last 3 and_chr versions",

@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 
 import Firebase from '../firebase';
 import { validateSignUp } from '../lib/validation';
+import Input from './Input';
 
-const SignUp = ({ errorMessage, history }) => {
+const SignUp = ({ errorMessage }) => {
+    const history = useHistory();
+
+    useEffect(() => {
+        const unsubscribe = Firebase.auth.onAuthStateChanged((user) => {
+            if (user && user.uid) {
+                history.push('/');
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
     async function onRegister(name, email, password) {
         try {
             await Firebase.register(name, email, password);
@@ -40,51 +53,34 @@ const SignUp = ({ errorMessage, history }) => {
                     {({ values, errors, touched, handleChange, handleSubmit, isSubmitting }) => (
                         <form className="login__form" onSubmit={handleSubmit} noValidate={true}>
                             <div className="form-control">
-                                <label>
-                                    Name
-                                    <input
-                                        className="input"
-                                        id="name"
-                                        name="name"
-                                        value={values.name}
-                                        onChange={handleChange}
-                                        error={errors.name && touched.name}
-                                    />
-                                </label>
-                                <div className="error__message">{errors.name && touched.name && errors.name}</div>
+                                <Input
+                                    id="name"
+                                    name="Name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    error={errors.name && touched.name && errors.name}
+                                />
                             </div>
 
                             <div className="form-control">
-                                <label>
-                                    Email
-                                    <input
-                                        className="input"
-                                        id="email"
-                                        name="email"
-                                        value={values.email}
-                                        onChange={handleChange}
-                                        error={errors.email && touched.email}
-                                    />
-                                </label>
-                                <div className="error__message">{errors.email && touched.email && errors.email}</div>
+                                <Input
+                                    id="email"
+                                    name="Email"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    error={errors.email && touched.email && errors.email}
+                                />
                             </div>
 
                             <div className="form-control">
-                                <label>
-                                    Password
-                                    <input
-                                        className="input"
-                                        id="password"
-                                        name="password"
-                                        value={values.password}
-                                        type="password"
-                                        onChange={handleChange}
-                                        error={errors.password && touched.password}
-                                    />
-                                </label>
-                                <div className="error__message">
-                                    {errors.password && touched.password && errors.password}
-                                </div>
+                                <Input
+                                    id="password"
+                                    name="Password"
+                                    value={values.password}
+                                    type="password"
+                                    onChange={handleChange}
+                                    error={errors.password && touched.password && errors.password}
+                                />
                             </div>
 
                             <div className="form-control">
