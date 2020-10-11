@@ -40,6 +40,10 @@
         color: #fff;
         transition: 0.2s ease background-color;
 
+        i {
+            padding-right: 10px;
+        }
+
         &:hover {
             background: #0690d6;
         }

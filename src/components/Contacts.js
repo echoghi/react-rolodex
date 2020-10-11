@@ -13,6 +13,9 @@ function makeData(data) {
 
     for (let i = 0; i < data.length; i++) {
         const contact = data[i][1];
+        const id = data[i][0];
+
+        contact.id = id;
 
         if (contact.created && contact.updated) {
             contact.created = new Date(contact.created).toLocaleDateString('en-US');
@@ -63,6 +66,20 @@ export default function Contacts() {
         return () => contactRef.off('value', getContacts);
     }, []);
 
+    const removeContact = (id) => {
+        const contactRef = Firebase.db.ref('users').child(auth.uid).child(`contacts`).child(id);
+        setOptionsMenu(false);
+
+        contactRef
+            .remove()
+            .then(() => {
+                alert('Contact removed');
+            })
+            .catch(() => {
+                console.warn('Contact could not be removed');
+            });
+    };
+
     const toggleAddContact = () => {
         setAddingContact(!isAddingContact);
         setNewContactStatus(false);
@@ -109,20 +126,25 @@ export default function Contacts() {
                 accessor: 'updated',
                 id: 'Options',
                 Cell: (cellProps) => {
-                    const { id } = cellProps.row;
+                    const { id } = cellProps.row.original;
+                    const rowId = cellProps.row.id;
 
-                    const handleClick = () => setOptionsMenu(id);
+                    const handleClick = () => setOptionsMenu(rowId);
 
                     return (
-                        <div ref={menuRef}>
+                        <div>
                             <div className="table__options" onClick={handleClick}>
                                 <i className="fas fa-ellipsis-h" />
                             </div>
-                            {optionsMenu === id && (
-                                <div>
+                            {optionsMenu === rowId && (
+                                <div ref={menuRef}>
                                     <ul className="table__menu">
-                                        <li>Edit</li>
-                                        <li>Delete</li>
+                                        <li>
+                                            <i className="fas fa-user-edit"></i>Edit Contact
+                                        </li>
+                                        <li onClick={() => removeContact(id)}>
+                                            <i className="fas fa-trash"></i>Remove
+                                        </li>
                                     </ul>
                                 </div>
                             )}
@@ -146,7 +168,7 @@ export default function Contacts() {
                 </div>
                 <div>
                     <button className="contacts__add" onClick={toggleAddContact}>
-                        Add Contact
+                        <i className="fas fa-user-plus"></i>Add Contact
                     </button>
                 </div>
             </div>
