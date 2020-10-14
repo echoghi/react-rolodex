@@ -1,6 +1,11 @@
 .table {
     &__head {
         font-weight: bold;
+
+        &--wrapper {
+            display: flex;
+            justify-content: center;
+        }
     }
 
     &__cell {
@@ -19,6 +24,20 @@
     &__options {
         text-align: center;
         font-size: 16;
+    }
+
+    &__sort {
+        display: inline-grid;
+        padding: 0 10px;
+        vertical-align: super;
+
+        i {
+            color: grey;
+
+            &.active {
+                color: $text-black;
+            }
+        }
     }
 
     &__menu {

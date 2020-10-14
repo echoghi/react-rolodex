@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useToasts } from 'react-toast-notifications';
 import { useOnClickOutside } from '@echoghi/hooks';
-import { useTable } from 'react-table';
+import { useTable, useSortBy } from 'react-table';
 
 import Firebase from '../firebase';
 import AddContact from './AddContact';
@@ -116,6 +116,7 @@ export default function Contacts() {
                 Header: '',
                 accessor: 'updated',
                 id: 'Options',
+                disableSortBy: true,
                 Cell: (cellProps) => {
                     const { id } = cellProps.row.original;
                     const rowId = cellProps.row.id;
@@ -145,7 +146,28 @@ export default function Contacts() {
         [optionsMenu]
     );
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
+    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data }, useSortBy);
+
+    const generateSortingIndicator = (column) => {
+        return column.isSorted ? (
+            column.isSortedDesc ? (
+                <div className="table__sort">
+                    <i className="fas fa-caret-up" />
+                    <i className="fas fa-caret-down active" />
+                </div>
+            ) : (
+                <div className="table__sort">
+                    <i className="fas fa-caret-up active" />
+                    <i className="fas fa-caret-down" />
+                </div>
+            )
+        ) : (
+            <div className="table__sort">
+                <i className="fas fa-caret-up" />
+                <i className="fas fa-caret-down" />
+            </div>
+        );
+    };
 
     return (
         <div className={`contacts__container ${sideNav ? 'sidenav--open' : ''}`}>
@@ -167,8 +189,14 @@ export default function Contacts() {
                         {headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
-                                    <th className="table__head" {...column.getHeaderProps()}>
-                                        {column.render('Header')}
+                                    <th
+                                        className="table__head"
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                    >
+                                        <div className="table__head--wrapper">
+                                            {column.render('Header')}
+                                            {generateSortingIndicator(column)}
+                                        </div>
                                     </th>
                                 ))}
                             </tr>
