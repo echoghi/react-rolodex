@@ -16,6 +16,14 @@ export function validateEmail(email) {
     }
 }
 
+export function validateContactEmail(email) {
+    if (email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+        return 'Invalid email address';
+    } else {
+        return false;
+    }
+}
+
 export function validatePassword(pass) {
     if (!pass) {
         return 'Required';
@@ -41,7 +49,7 @@ const isValidDate = (date) => {
 
 export function validateDOB(dob) {
     if (dob.indexOf('_') >= 0) {
-        return 'Please enter a full DOB';
+        return 'Please enter a full date';
     } else if (!isValidDate(dob)) {
         return 'Please enter a valid date';
     } else {
@@ -103,12 +111,12 @@ export function validateLinkAccount(values) {
 export function validateNewContact(values) {
     if (
         defaultValidator(values.name) ||
-        validateEmail(values.email) ||
+        validateContactEmail(values.email) ||
         validateDOB(values.dob) ||
         validatePhone(values.phone)
     ) {
         return {
-            email: validateEmail(values.email),
+            email: validateContactEmail(values.email),
             name: defaultValidator(values.name),
             phone: validatePhone(values.phone),
             dob: validateDOB(values.dob)

@@ -105,8 +105,8 @@ export default function Contacts() {
                 accessor: 'dob'
             },
             {
-                Header: 'Created Date',
-                accessor: 'created'
+                Header: 'Location',
+                accessor: 'location'
             },
             {
                 Header: 'Last Updated',

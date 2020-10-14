@@ -11,7 +11,21 @@ import Input from './Input';
 import { useAppState } from '../context/appContext';
 
 const AddContact = forwardRef(
-    ({ name = '', id, email = '', phone = '', company = '', dob = '', notes = '', relation = '' }, ref) => {
+    (
+        {
+            name = '',
+            id,
+            email = '',
+            phone = '',
+            company = '',
+            dob = '',
+            notes = '',
+            relation = '',
+            birthplace = '',
+            location = ''
+        },
+        ref
+    ) => {
         const { auth } = useAuth();
         const { addToast } = useToasts();
         const { setNewContactStatus } = useAppState();
@@ -71,7 +85,9 @@ const AddContact = forwardRef(
                             company,
                             dob,
                             notes,
-                            relation
+                            relation,
+                            location,
+                            birthplace
                         }}
                         validate={validateNewContact}
                         onSubmit={name ? editFormHandler : formHandler}
@@ -91,6 +107,7 @@ const AddContact = forwardRef(
                                             error={errors.name && touched.name && errors.name}
                                         />
                                     </div>
+
                                     <div className="form-control narrow">
                                         <Input
                                             id="email"
@@ -102,6 +119,19 @@ const AddContact = forwardRef(
                                             error={errors.email && touched.email && errors.email}
                                         />
                                     </div>
+
+                                    <div className="form-control narrow">
+                                        <Input
+                                            id="birthplace"
+                                            name="Birthplace"
+                                            className="contact"
+                                            value={values.birthplace}
+                                            placeholder="Winterfell, Westeros"
+                                            onChange={handleChange}
+                                            error={errors.birthplace && touched.birthplace && errors.birthplace}
+                                        />
+                                    </div>
+
                                     <div className="form-control narrow">
                                         <InputMask mask="(999) 999-9999" onChange={handleChange} value={values.phone}>
                                             {() => (
@@ -171,6 +201,18 @@ const AddContact = forwardRef(
                                                 />
                                             )}
                                         </InputMask>
+                                    </div>
+
+                                    <div className="form-control narrow">
+                                        <Input
+                                            id="location"
+                                            name="Current Location"
+                                            className="contact"
+                                            value={values.location}
+                                            placeholder="The Wall, Westeros"
+                                            onChange={handleChange}
+                                            error={errors.location && touched.location && errors.location}
+                                        />
                                     </div>
 
                                     <div className="form-control narrow">
