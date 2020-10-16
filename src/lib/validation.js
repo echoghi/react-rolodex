@@ -111,12 +111,14 @@ export function validateLinkAccount(values) {
 export function validateNewContact(values) {
     if (
         defaultValidator(values.name) ||
+        defaultValidator(values.relation) ||
         validateContactEmail(values.email) ||
         validateDOB(values.dob) ||
         validatePhone(values.phone)
     ) {
         return {
             email: validateContactEmail(values.email),
+            relation: defaultValidator(values.relation),
             name: defaultValidator(values.name),
             phone: validatePhone(values.phone),
             dob: validateDOB(values.dob)

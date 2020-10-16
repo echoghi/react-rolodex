@@ -5,7 +5,7 @@
     "main": "src/app.js",
     "scripts": {
         "start": "parcel index.html",
-        "build": "parcel build src/app.js",
+        "build": "parcel build index.html",
         "clean": "rimraf node_modules dist"
     },
     "repository": {
