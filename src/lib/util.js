@@ -8,7 +8,7 @@ export const displayName = (name) => {
     }
 };
 
-export function makeData(data) {
+export function makeTableData(data) {
     const result = [];
 
     for (let i = 0; i < data.length; i++) {

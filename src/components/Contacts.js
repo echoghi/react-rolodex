@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useToasts } from 'react-toast-notifications';
 import { useOnClickOutside } from '@echoghi/hooks';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, usePagination } from 'react-table';
 
 import Firebase from '../firebase';
 import AddContact from './AddContact';
 import { useAuth } from '../context/authContext';
 import { useAppState } from '../context/appContext';
-import { displayName, makeData } from '../lib/util';
+import { displayName, makeTableData } from '../lib/util';
 
 const BasicInfo = ({ name, relation }) => {
     return (
@@ -43,7 +43,7 @@ export default function Contacts() {
             const val = snapshot.val();
             const result = val && Object.entries(val).length ? Object.entries(val) : [];
 
-            setData(makeData(result));
+            setData(makeTableData(result));
         });
 
         return () => contactRef.off('value', getContacts);
@@ -123,9 +123,9 @@ export default function Contacts() {
 
                     return (
                         <div>
-                            <div className="table__options">
-                                <i className="fas fa-ellipsis-h" />
-                            </div>
+                            <button type="button" className="table__options">
+                                <i className="fas fa-ellipsis-h fa-sm" />
+                            </button>
                             {optionsMenu === rowId && (
                                 <div ref={menuRef}>
                                     <ul className="table__menu">
@@ -146,7 +146,30 @@ export default function Contacts() {
         [optionsMenu]
     );
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data }, useSortBy);
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        page,
+        prepareRow,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        state: { pageIndex }
+    } = useTable(
+        {
+            columns,
+            data,
+
+            initialState: { pageIndex: 0, pageSize: 10 }
+        },
+        useSortBy,
+        usePagination
+    );
 
     const generateSortingIndicator = (column) => {
         return column.isSorted ? (
@@ -203,7 +226,7 @@ export default function Contacts() {
                         ))}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                        {rows.map((row) => {
+                        {page.map((row) => {
                             prepareRow(row);
                             return (
                                 <tr {...row.getRowProps()}>
@@ -227,6 +250,51 @@ export default function Contacts() {
                         })}
                     </tbody>
                 </table>
+
+                <div className="table__pagination">
+                    <div>
+                        <button
+                            className="table__pagination--button left"
+                            type="button"
+                            onClick={() => gotoPage(0)}
+                            disabled={!canPreviousPage}
+                        >
+                            <i className="fas fa-angle-double-left fa-lg" />
+                        </button>
+                        <button
+                            className="table__pagination--button"
+                            type="button"
+                            onClick={previousPage}
+                            disabled={!canPreviousPage}
+                        >
+                            <i className="fas fa-angle-left fa-lg" />
+                        </button>
+                    </div>
+                    <div>
+                        Page{' '}
+                        <strong>
+                            {pageIndex + 1} of {pageOptions.length}{' '}
+                        </strong>
+                    </div>
+                    <div>
+                        <button
+                            type="button"
+                            className="table__pagination--button"
+                            onClick={nextPage}
+                            disabled={!canNextPage}
+                        >
+                            <i className="fas fa-angle-right fa-lg" />
+                        </button>
+                        <button
+                            type="button"
+                            className="table__pagination--button"
+                            onClick={() => gotoPage(pageCount - 1)}
+                            disabled={!canNextPage}
+                        >
+                            <i className="fas fa-angle-double-right fa-lg" />
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

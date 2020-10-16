@@ -1,4 +1,18 @@
-$text-black: rgb(25, 25, 25);
+$text-black: #364343; // text primary
+$black-medium: #616f6f; // Section headings, inactive navigation, field labels.
+$black-light: #869191; // Descriptive text and table headers, light body copy, action icons on interactive fields like delete.
+$black-lighter: #a3adad; // disabled elements
+
+$grey-darker: #acbcbd; // Disabled Text
+$grey-dark: #bfcecf; // backgrounds
+$grey: #e3eded; // Secondary button outlines and strokes.
+$grey-light: #f4f8f8; // backgrounds
+$grey-lighter: #fcfcfd; // Main page background and side navigation background.
+
 $white: #fff;
-$primary: #0063dd;
-$primary-light: #3682f9;
+
+$primary-darker: #4a78fa;
+$primary-dark: #6189fb;
+$primary: #7fa0ff; //#0063dd;
+$primary-light: #bfcfff; // #3682f9;
+$primary-lighter: #f2f5ff;
