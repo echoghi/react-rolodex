@@ -17,6 +17,7 @@ export function makeTableData(data) {
 
         contact.id = id;
 
+        // format dates
         if (contact.created && contact.updated) {
             contact.created = new Date(contact.created).toLocaleDateString('en-US');
             contact.updated = new Date(contact.updated).toLocaleDateString('en-US');

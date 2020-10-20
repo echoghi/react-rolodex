@@ -122,7 +122,7 @@ export default function Contacts() {
                     const rowId = cellProps.row.id;
 
                     return (
-                        <div>
+                        <div className="table__options--wrapper">
                             <button type="button" className="table__options">
                                 <i className="fas fa-ellipsis-h fa-sm" />
                             </button>
@@ -172,22 +172,12 @@ export default function Contacts() {
     );
 
     const generateSortingIndicator = (column) => {
-        return column.isSorted ? (
-            column.isSortedDesc ? (
-                <div className="table__sort">
-                    <i className="fas fa-caret-up" />
-                    <i className="fas fa-caret-down active" />
-                </div>
-            ) : (
-                <div className="table__sort">
-                    <i className="fas fa-caret-up active" />
-                    <i className="fas fa-caret-down" />
-                </div>
-            )
-        ) : (
+        const { isSorted, isSortedDesc } = column;
+
+        return (
             <div className="table__sort">
-                <i className="fas fa-caret-up" />
-                <i className="fas fa-caret-down" />
+                <i className={`fas fa-caret-up ${isSorted && !isSortedDesc ? 'active' : ''}`} />
+                <i className={`fas fa-caret-down ${isSorted && isSortedDesc ? 'active' : ''}`} />
             </div>
         );
     };

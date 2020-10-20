@@ -7,3 +7,9 @@ body {
     box-sizing: border-box;
     position: relative;
 }
+
+button {
+    &:focus {
+        outline: none;
+    }
+}
