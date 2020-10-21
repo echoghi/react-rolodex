@@ -95,4 +95,29 @@
             margin: 2.5px 0;
         }
     }
+
+    &__company,
+    &__email,
+    &__phone,
+    &__birthday,
+    &__updated,
+    &__location {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__company {
+        min-width: 200px;
+        max-width: 250px;
+    }
+
+    &__phone,
+    &__birthday,
+    &__updated,
+    &__location {
+        min-width: 100px;
+        max-width: 100px;
+    }
 }

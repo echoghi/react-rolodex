@@ -22,6 +22,13 @@
     &.error {
         border-color: rgb(203, 36, 49);
     }
+
+    &.filter {
+        height: 30px;
+        width: 100%;
+        font-size: 14px;
+        margin: 5px 0;
+    }
 }
 
 label {

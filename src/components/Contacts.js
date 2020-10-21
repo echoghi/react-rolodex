@@ -1,13 +1,14 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useToasts } from 'react-toast-notifications';
 import { useOnClickOutside } from '@echoghi/hooks';
-import { useTable, useSortBy, usePagination } from 'react-table';
+import { useTable, useSortBy, usePagination, useFilters } from 'react-table';
 
 import Firebase from '../firebase';
 import AddContact from './AddContact';
 import { useAuth } from '../context/authContext';
 import { useAppState } from '../context/appContext';
 import { displayName, makeTableData } from '../lib/util';
+import { DefaultColumnFilter, Filter } from './Table';
 
 const BasicInfo = ({ name, relation }) => {
     return (
@@ -90,33 +91,65 @@ export default function Contacts() {
             },
             {
                 Header: 'Email',
-                accessor: 'email'
+                accessor: 'email',
+                Cell: (cellProps) => {
+                    const { email } = cellProps.row.original;
+
+                    return <h1 className="contact__email">{email}</h1>;
+                }
             },
             {
                 Header: 'Company',
-                accessor: 'company'
+                accessor: 'company',
+                Cell: (cellProps) => {
+                    const { company } = cellProps.row.original;
+
+                    return <h1 className="contact__company">{company}</h1>;
+                }
             },
             {
                 Header: 'Phone',
-                accessor: 'phone'
+                accessor: 'phone',
+                Cell: (cellProps) => {
+                    const { phone } = cellProps.row.original;
+
+                    return <h1 className="contact__phone">{phone}</h1>;
+                }
             },
             {
                 Header: 'Birthday',
-                accessor: 'dob'
+                accessor: 'dob',
+                Cell: (cellProps) => {
+                    const { dob } = cellProps.row.original;
+
+                    return <h1 className="contact__birthday">{dob}</h1>;
+                }
             },
             {
                 Header: 'Location',
-                accessor: 'location'
+                accessor: 'location',
+                Cell: (cellProps) => {
+                    const { location } = cellProps.row.original;
+
+                    return <h1 className="contact__location">{location}</h1>;
+                }
             },
             {
                 Header: 'Last Updated',
-                accessor: 'updated'
+                accessor: 'updated',
+                Cell: (cellProps) => {
+                    const { updated } = cellProps.row.original;
+
+                    return <h1 className="contact__updated">{updated}</h1>;
+                }
             },
             {
                 Header: '',
+                Filter: '',
                 accessor: 'updated',
                 id: 'Options',
                 disableSortBy: true,
+
                 Cell: (cellProps) => {
                     const { id } = cellProps.row.original;
                     const rowId = cellProps.row.id;
@@ -164,15 +197,18 @@ export default function Contacts() {
         {
             columns,
             data,
-
+            defaultColumn: { Filter: DefaultColumnFilter },
             initialState: { pageIndex: 0, pageSize: 10 }
         },
+        useFilters,
         useSortBy,
         usePagination
     );
 
     const generateSortingIndicator = (column) => {
-        const { isSorted, isSortedDesc } = column;
+        const { isSorted, isSortedDesc, Header } = column;
+
+        if (!Header) return '';
 
         return (
             <div className="table__sort">
@@ -210,6 +246,7 @@ export default function Contacts() {
                                             {column.render('Header')}
                                             {generateSortingIndicator(column)}
                                         </div>
+                                        <Filter column={column} />
                                     </th>
                                 ))}
                             </tr>
