@@ -112,25 +112,15 @@
     &__menu {
         position: absolute;
         width: 200px;
-        margin-top: 51px;
-        background: $primary-darker;
-        color: $white;
+        margin-top: 40px;
+        background: #4a78fa;
+        color: #fff;
         font-size: 15px;
         list-style: none;
-        padding: 15px 10px;
-        right: 15px;
-        border-radius: 4px;
+        padding: 10px;
+        right: 0px;
+        border-radius: 0 0 4px 4px;
         font-family: 'Open Sans';
-
-        &:after {
-            content: '';
-            position: absolute;
-            top: -11px;
-            left: 165px;
-            border-bottom: 11px solid $primary-darker;
-            border-left: 11px solid transparent;
-            border-right: 11px solid transparent;
-        }
 
         &--wrapper {
             padding: 0 20px;

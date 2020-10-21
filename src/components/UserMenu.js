@@ -1,6 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useOnClickOutside } from '@echoghi/hooks';
 
 import { displayName } from '../lib/util';
 import Firebase from '../firebase';
@@ -9,16 +8,9 @@ import { useAuth } from '../context/authContext';
 function UserMenu() {
     const { auth } = useAuth();
     const [open, setMenu] = useState(false);
-    const ref = useRef();
-
-    useOnClickOutside(ref, () => setMenu(false));
 
     const closeMenu = () => {
         setMenu(false);
-    };
-
-    const toggleMenu = () => {
-        setMenu(!open);
     };
 
     const logOutHandler = () => {
@@ -26,8 +18,8 @@ function UserMenu() {
     };
 
     return (
-        <div className="user__menu--wrapper" ref={ref}>
-            <div className="user__wrapper" onClick={toggleMenu}>
+        <div className="user__menu--wrapper" onMouseOver={() => setMenu(true)} onMouseLeave={() => setMenu(false)}>
+            <div className="user__wrapper">
                 {[
                     // User Photo
                     auth.photoURL && <img className="user__image" key={0} src={auth.photoURL} alt={auth.email} />,
