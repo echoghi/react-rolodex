@@ -238,11 +238,8 @@ export default function Contacts() {
                         {headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
-                                    <th
-                                        className="table__head"
-                                        {...column.getHeaderProps(column.getSortByToggleProps())}
-                                    >
-                                        <div className="table__head--wrapper">
+                                    <th className="table__head" {...column.getHeaderProps()}>
+                                        <div className="table__head--wrapper" {...column.getSortByToggleProps()}>
                                             {column.render('Header')}
                                             {generateSortingIndicator(column)}
                                         </div>
@@ -256,7 +253,7 @@ export default function Contacts() {
                         {page.map((row) => {
                             prepareRow(row);
                             return (
-                                <tr {...row.getRowProps()}>
+                                <tr {...row.getRowProps()} className="table__row">
                                     {row.cells.map((cell) => {
                                         const optionsMenuHandler =
                                             cell.column.id === 'Options'

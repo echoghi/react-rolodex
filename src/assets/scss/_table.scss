@@ -4,15 +4,6 @@ table {
     tbody {
         background: $white;
     }
-
-    tr {
-        height: 70px;
-        transition: 0.2s ease background-color;
-
-        &:hover {
-            background-color: $primary-lighter;
-        }
-    }
 }
 
 .table {
@@ -25,6 +16,16 @@ table {
             align-items: center;
             padding: 0 5px;
             font-size: 14px;
+        }
+    }
+
+    &__row {
+        height: 70px;
+        transition: 0.2s ease background-color;
+        border-bottom: 1px solid $grey;
+
+        &:hover {
+            background-color: $primary-lighter;
         }
     }
 
@@ -58,7 +59,6 @@ table {
 
     &__sort {
         display: inline-grid;
-        padding: 0 10px;
         vertical-align: super;
 
         i {

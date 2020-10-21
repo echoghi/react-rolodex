@@ -108,15 +108,20 @@
         text-overflow: ellipsis;
     }
 
-    &__company {
+    &__company,
+    &__location {
         min-width: 200px;
-        max-width: 250px;
+        max-width: 200px;
+    }
+
+    &__email {
+        min-width: 150px;
+        max-width: 150px;
     }
 
     &__phone,
     &__birthday,
-    &__updated,
-    &__location {
+    &__updated {
         min-width: 100px;
         max-width: 100px;
     }
